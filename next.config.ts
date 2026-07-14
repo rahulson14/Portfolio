@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
+  // Removed output: 'export' so Vercel can run dynamic backend server routes (/api/contact)
 };
 
 export default nextConfig;

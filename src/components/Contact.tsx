@@ -29,10 +29,17 @@ export default function Contact() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        // If response is not JSON (e.g., 404 HTML on static GitHub Pages hosting)
+        throw new Error("Backend API route (/api/contact) is not available on static hosting (GitHub Pages). Please test on Vercel or email rahulsonboro@gmail.com directly.");
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send message");
+        throw new Error(data?.error || "Failed to send message");
       }
 
       setStatus("success");
